@@ -51,13 +51,13 @@ type HeaderProps = {
 const Header = ({ logoClick }: HeaderProps) => {
   return (
     <>
-      <header className='grid grid-cols-2 m-4'>
+      <header className='md:grid md:grid-cols-2 md:m-4'>
         <div className='flex items-center'>
-          <h1 className='text-xl font-bold inline-block align-baseline cursor-pointer text-indigo-800' onClick={logoClick}>
+          <h1 className='text-xl font-bold inline-block align-baseline cursor-pointer text-indigo-800 mx-6 my-2 md:mx-0 md:my-0' onClick={logoClick}>
             MailroomIntern
           </h1>
         </div>
-        <div className='flex justify-end'>
+        <div className='flex md:justify-end'>
           <Login />
         </div>
       </header>
@@ -79,11 +79,11 @@ const Body = ({ signedIn, selectedRule, setSelectedRule }: MainProps) => {
       }
       {!signedIn &&
         <div className="w-1/2 p-4 mx-auto text-center">
-          <h1 className="font-bold text-2xl m-2"> 
+          <h1 className="font-bold text-2xl m-2">
             Not logged in
           </h1>
           <p className="m-2">
-            Please log in to your Microsoft 365 account to 
+            Please log in to your Microsoft 365 account to
             use this application.
           </p>
           <Login />
@@ -450,13 +450,13 @@ const RuleItem = (props: any) => {
           </Dialog.Panel>
         </div>
       </Dialog>
-      <div className="border rounded p-2 my-1 flex">
-        <div className="grow">
+      <div className="border rounded p-2 my-1 flex justify-between">
+        <div className="w-full md:w-full mr-auto">
           {editMode &&
-            <div className="flex w-full">
+            <div className="md:flex space-between justify-end">
               <input
                 type="text"
-                className="rounded p-1 grow border-b"
+                className="rounded p-1 grow border-b w-96 mb-2"
                 disabled={itemSaving}
                 onChange={(event) => setCurrentValue(event.target.value)}
                 value={currentValue}
@@ -464,33 +464,38 @@ const RuleItem = (props: any) => {
               {itemSaving &&
                 <SyncLoader size="6px" className="mx-2" />
               }
-              <button
-                className={
-                  ((itemSaving || currentValue.toUpperCase() === String(props.item) || currentValue === '' ? "bg-slate-300"
-                    : "bg-green-600 cursor-pointer")
-                    + " text-white text-sm font-semibold px-3 py-1 ml-4 rounded")
-                }
-                onClick={() => saveItem()}
-                disabled={itemSaving || currentValue.toUpperCase() === String(props.item) || currentValue === ''}
-              >
-                save
-              </button>
-              <button
-                className={
-                  ((itemSaving ? "bg-slate-300"
-                    : "bg-slate-600") +
-                    " text-white text-sm font-semibold px-3 py-1 mx-2 rounded cursor-pointer")
-                }
-                onClick={!itemSaving ? () => setEditMode(false) : () => { }}
-              >
-                cancel
-              </button>
+              <div className="flex md:justify-end md:-mr-6">
+                <button
+                  className={
+                    ((itemSaving || currentValue.toUpperCase() === String(props.item) || currentValue === '' ? "bg-slate-300"
+                      : "bg-green-600 cursor-pointer")
+                      + " text-white text-sm font-semibold px-3 py-1 ml-4 rounded grow")
+                  }
+                  onClick={() => saveItem()}
+                  disabled={itemSaving || currentValue.toUpperCase() === String(props.item) || currentValue === ''}
+                >
+                  save
+                </button>
+                <button
+                  className={
+                    ((itemSaving ? "bg-slate-300"
+                      : "bg-slate-600") +
+                      " text-white text-sm font-semibold px-3 py-1 mx-2 rounded cursor-pointer grow")
+                  }
+                  onClick={!itemSaving ? () => setEditMode(false) : () => { }}
+                >
+                  cancel
+                </button>
+              </div>
             </div>
           }
           {!editMode &&
-            <span className="cursor-pointer hover:underline flex grow" onClick={() => setEditMode(true)} >
+            <p
+              className="cursor-pointer hover:underline inline-block overflow-hidden truncate w-64 md:w-full"
+              onClick={() => setEditMode(true)}
+            >
               {String(props.item).toLowerCase()}
-            </span>
+            </p>
           }
         </div>
         <div className="flex justify-end ml-4">
@@ -502,7 +507,8 @@ const RuleItem = (props: any) => {
               ((itemSaving
                 ? "bg-slate-300"
                 : "bg-red-600 cursor-pointer")
-                + (" text-white text-sm font-semibold px-3 py-1 rounded"))}
+                + (" text-white text-sm font-semibold px-3 py-1 rounded")
+                + (editMode ? ' hidden md:visible' : ''))}
             onClick={() => setDeleteModalOpen(true)}
           >
             delete
