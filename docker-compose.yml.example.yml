@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  mailroom-intern:
+    image: gabepb/mailroom-intern:latest
+    environment:
+      - PUBLIC_URL=http://monsters.inc
+      - REACT_APP_CLIENT_ID=00000000-0000-0000-0000-000000000000
+      - REACT_APP_DATA_AUTHORITY=https://login.microsoftonline.com/00000000-0000-0000-0000-000000000000
+    ports:
+      - 80:80
+      

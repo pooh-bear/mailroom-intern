@@ -1,0 +1,18 @@
+steps:  
+  - label: ":construction_worker: Build & Push Docker x64 image"
+    command: 
+      - "docker build --no-cache -t ${DOCKER_REGISTRY}/mailroom-intern:amd64 ."
+      - "docker push ${DOCKER_REGISTRY}/mailroom-intern:amd64"
+    key: build_x64
+    agents:
+      amd64: "true"
+    
+  - label: ":construction_worker: Build & Push Docker image manifest"
+    command: 
+      - docker manifest create --insecure ${DOCKER_REGISTRY}/mailroom-intern:latest --amend ${DOCKER_REGISTRY}/mailroom-intern:amd64
+      - docker manifest push --insecure ${DOCKER_REGISTRY}/mailroom-intern:latest
+    key: build_manifest
+    depends_on:
+      - build_x64
+    agents:
+      internal-docker-registry: "true"
